@@ -352,6 +352,14 @@ class SpotifySearch():
         self.offset = offset
         self.populate()
 
+    def __getitem__(self, index):
+        if index >= self.getNumTracks():
+            raise IndexError
+        return self.getTracks()[index]
+
+    def __len__(self):
+        return self.getNumTracks()
+
     def populate(self):
         xml = self.spotify.api.search_request(self.query, query_type=self.query_type, max_results=self.max_results, offset=self.offset)
         xml = xml[38:]  # trim UTF8 declaration
